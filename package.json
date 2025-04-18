@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
