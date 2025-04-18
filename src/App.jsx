@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Garage from "./components/Garage";
 import CarDetails from "./components/CarDetails";
+import Footer from "./components/footer";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Garage />} />
         <Route path="/car/:registrationNumber" element={<CarDetails />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

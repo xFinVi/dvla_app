@@ -1,8 +1,7 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaTrashAlt, FaEye } from "react-icons/fa";
-import { SlOptionsVertical } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaTrashAlt } from "react-icons/fa";
 
 function VehicleCard({ vehicle, getCarImage, removeVehicle }) {
   const navigate = useNavigate();
@@ -13,7 +12,7 @@ function VehicleCard({ vehicle, getCarImage, removeVehicle }) {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
       }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105 border border-gray-200 cursor-pointer"
+      className="overflow-hidden transition-all transform bg-white border border-gray-200 shadow-lg cursor-pointer rounded-xl hover:scale-105"
       onClick={() => {
         console.log(
           `[${new Date().toISOString()}] Navigating to /car/${
@@ -26,10 +25,10 @@ function VehicleCard({ vehicle, getCarImage, removeVehicle }) {
       <img
         src={getCarImage(vehicle.make)}
         alt={`${vehicle.registrationNumber} vehicle`}
-        className="w-full h-40 object-cover"
+        className="object-cover w-full h-40"
         loading="lazy"
       />
-      <div className="flex justify-between items-center p-4">
+      <div className="flex items-center justify-between p-4">
         <div>
           <h3 className="text-lg font-semibold text-gray-800">
             {vehicle.registrationNumber}

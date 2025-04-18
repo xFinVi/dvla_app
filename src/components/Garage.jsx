@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fetchVehicleDetails } from "../utils/api";
 import { fetchCarImage } from "../utils/imageApi";
 import AddForm from "./AddForm";
-import VehicleCard from "./VehicleCard";
+import VehicleCard from "./VehicleCard.jsx";
 import {
   getInitialVehicles,
   getInitialImageCache,
@@ -145,19 +145,19 @@ function Garage() {
         }}
       >
         <div className="absolute inset-0 bg-black/30"></div>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white">
           <motion.h2
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
-            className="mt-6 text-6xl sm:text-7xl font-bold text-white"
+            className="mt-6 text-6xl font-bold text-white sm:text-7xl"
           >
             Your Garage
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-xl mt-10"
+              className="mt-10 text-xl"
             >
               {vehicles.length === 0 ? "Add vehicles to get started" : ""}
             </motion.p>
