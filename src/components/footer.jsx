@@ -15,7 +15,7 @@ function Footer() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="py-6 text-center text-gray-600 border-t min-h-[20vh] flex justify-center items-center w-full  border-gray-300 p-6 bg-gradient-to-b from-gray-200 to-gray-300"
+      className="py-6 text-center text-gray-400 border-t min-h-[15vh] flex justify-center items-center w-full  border-gray-300 p-6  bg-gray-800"
     >
       <p className="text-sm font-medium">Car Registration App © 2025</p>
       <motion.button

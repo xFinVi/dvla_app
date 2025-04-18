@@ -44,7 +44,7 @@ function AddForm({ onAddVehicle }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center gap-4 mb-8 sm:flex-row"
+      className="flex justify-center gap-4 mb-8 sm:flex-row"
     >
       <div className="flex flex-col w-full sm:w-64">
         <input
@@ -52,7 +52,7 @@ function AddForm({ onAddVehicle }) {
           value={newRegPlate}
           onChange={(e) => setNewRegPlate(e.target.value)}
           placeholder="Enter registration number (e.g., AK13BBX)"
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={isLoading}
         />
         {/* error div */}
@@ -72,7 +72,7 @@ function AddForm({ onAddVehicle }) {
         whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isLoading}
-        className="flex items-center justify-center gap-2 px-4 py-3 font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
+        className="flex items-center justify-center h-12 gap-2 px-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
       >
         <FaPlus /> {isLoading ? "Adding..." : "Add Vehicle"}
       </motion.button>
