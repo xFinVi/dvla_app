@@ -8,6 +8,7 @@ function AddForm({ onAddVehicle }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  /* submit function */
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newRegPlate.trim()) {
@@ -43,7 +44,7 @@ function AddForm({ onAddVehicle }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
       onSubmit={handleSubmit}
-      className="mb-8 flex flex-col sm:flex-row gap-4 justify-center"
+      className="flex flex-col justify-center gap-4 mb-8 sm:flex-row"
     >
       <div className="flex flex-col w-full sm:w-64">
         <input
@@ -51,25 +52,27 @@ function AddForm({ onAddVehicle }) {
           value={newRegPlate}
           onChange={(e) => setNewRegPlate(e.target.value)}
           placeholder="Enter registration number (e.g., AK13BBX)"
-          className="p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={isLoading}
         />
+        {/* error div */}
         {error && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-red-500 text-sm mt-1"
+            className="mt-1 text-sm text-red-500"
           >
             {error}
           </motion.p>
         )}
       </div>
+      {/* submit button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         type="submit"
         disabled={isLoading}
-        className="flex items-center gap-2 px-4 py-3 bg-blue-500 justify-center font-medium text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
+        className="flex items-center justify-center gap-2 px-4 py-3 font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
       >
         <FaPlus /> {isLoading ? "Adding..." : "Add Vehicle"}
       </motion.button>

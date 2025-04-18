@@ -7,7 +7,7 @@ export const fetchVehicleDetails = async (registrationNumber) => {
   try {
     // Normalize registration: remove spaces, uppercase
     const normalizedReg = registrationNumber.replace(/\s+/g, "").toUpperCase();
-    // Basic client-side check (server handles strict validation)
+    // Basic client-side check
     if (!normalizedReg) {
       return null; // Silently return null for empty input
     }
@@ -29,7 +29,7 @@ export const fetchVehicleDetails = async (registrationNumber) => {
     const message = error.response?.data?.error || error.message;
 
     if (status === 400 || status === 404) {
-      vehicleCache.set(registrationNumber.toUpperCase(), null); // Cache failures
+      vehicleCache.set(normalizedReg, null); // Cache failures
       return { error: message, status }; // Return error for AddForm.jsx
     }
     if (status === 429) {
@@ -37,7 +37,8 @@ export const fetchVehicleDetails = async (registrationNumber) => {
       return { error: message, status };
     }
 
-    console.error(`DVLA API error for ${registrationNumber}:`, message);
-    throw new Error(message); // Throw for unexpected errors
+    // Handle "Invalid URL" or other network errors
+    console.error(`DVLA API error for ${normalizedReg}:`, message);
+    return { error: message, status: status || "network" }; // Return error object instead of throwing
   }
 };

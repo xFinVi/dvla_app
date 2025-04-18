@@ -6,27 +6,25 @@ import { FaTrashAlt } from "react-icons/fa";
 function VehicleCard({ vehicle, getCarImage, removeVehicle }) {
   const navigate = useNavigate();
 
+  //navigate to carDetails component.
+  const handleImageClick = () => {
+    navigate(`/car/${vehicle.registrationNumber}`);
+  };
+
   return (
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 },
       }}
-      className="overflow-hidden transition-all transform bg-white border border-gray-200 shadow-lg cursor-pointer rounded-xl hover:scale-105"
-      onClick={() => {
-        console.log(
-          `[${new Date().toISOString()}] Navigating to /car/${
-            vehicle.registrationNumber
-          }`
-        );
-        navigate(`/car/${vehicle.registrationNumber}`);
-      }}
+      className="overflow-hidden transition-all transform bg-white border border-gray-200 shadow-lg rounded-xl"
     >
       <img
         src={getCarImage(vehicle.make)}
         alt={`${vehicle.registrationNumber} vehicle`}
-        className="object-cover w-full h-40"
+        className="object-cover w-full h-40 cursor-pointer"
         loading="lazy"
+        onClick={handleImageClick}
       />
       <div className="flex items-center justify-between p-4">
         <div>

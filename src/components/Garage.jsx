@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchVehicleDetails } from "../utils/api";
 import { fetchCarImage } from "../utils/imageApi";
@@ -8,21 +8,13 @@ import {
   getInitialVehicles,
   getInitialImageCache,
 } from "../utils/helperFunctions";
+import { defaultRegistrations } from "../utils/constants.js";
 
 function Garage() {
   const [vehicles, setVehicles] = useState(getInitialVehicles());
   const [imageCache, setImageCache] = useState(getInitialImageCache());
   const [error, setError] = useState(null);
   const [deleteMessage, setDeleteMessage] = useState(null);
-
-  // Default registration numbers
-  const defaultRegistrations = [
-    "AY18OOT",
-    "V14BYE",
-    "RV70JSU",
-    "RJ66WFN",
-    "KP13FMA",
-  ];
 
   // Initialize default vehicles on first load if localStorage is empty
   useEffect(() => {
@@ -69,10 +61,11 @@ function Garage() {
   }, []);
 
   // Save vehicles and imageCache to localStorage
-  useEffect(() => {
+  useMemo(() => {
     try {
       localStorage.setItem("vehicles", JSON.stringify(vehicles));
       localStorage.setItem("imageCache", JSON.stringify(imageCache));
+      console.log(localStorage.getItem("vehicles"));
     } catch (err) {
       console.error(
         `[${new Date().toISOString()}] Error saving to localStorage:`,
