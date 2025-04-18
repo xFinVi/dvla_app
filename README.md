@@ -18,12 +18,14 @@ npm install
 
 
 Start the Server:
+
 npm start
 The server runs on http://localhost:3001.
 
 
 
 Start the Frontend:
+
 In a new terminal:
 
 npm run dev
