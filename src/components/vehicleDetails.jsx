@@ -138,7 +138,7 @@ function VehicleDetails({ vehicle }) {
 
         {/* Tax & MOT Section */}
         <motion.div variants={itemVariants}>
-          <h4 className="text-lg font-bold  underline text-gray-800 mb-3 border-b border-gray-200 pb-2">
+          <h4 className="text-lg font-bold mt-8  underline text-gray-800 mb-3 border-b border-gray-200 pb-2">
             Tax & MOT
           </h4>
           <div className="space-y-2 text-base text-gray-700">

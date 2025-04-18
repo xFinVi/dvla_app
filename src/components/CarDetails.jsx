@@ -175,113 +175,151 @@ function CarDetails() {
         variants={itemVariants}
         className="p-6 bg-white flex flex-col flex-1 rounded-b-xl shadow-md border border-gray-200"
       >
-        <div className=" gap-0 md:gap-6 grid grid-cols-1 sm:grid-cols-2 place-items-center  items-start">
+        <div className=" gap-12 md:gap-6 grid grid-cols-1 sm:grid-cols-1 place-items-center  items-start">
           {/* General Section */}
           <motion.div variants={itemVariants} className="w-full text-center ">
-            <h4 className="text-lg font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">
+            <h4 className="text-2xl font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">
               General Information
             </h4>
             <div className="space-y-2 text-base text-gray-700">
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Registration:</strong>{" "}
-                <span className="font-mono">
+                <span className="font-mono ml-auto">
                   {carDetails.registrationNumber || "N/A"}
                 </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Make:</strong>{" "}
-                {formatString(carDetails.make)}
+                <span className="font-mono ml-auto">
+                  {formatString(carDetails.make)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Colour:</strong>{" "}
-                {formatString(carDetails.colour)}
+                <span className="font-mono ml-auto">
+                  {formatString(carDetails.colour)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Year:</strong>{" "}
-                {carDetails.yearOfManufacture || "N/A"}
+                <span className="font-mono ml-auto">
+                  {" "}
+                  {carDetails.yearOfManufacture || "N/A"}{" "}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Fuel Type:</strong>{" "}
-                {formatString(carDetails.fuelType)}
+                <span className="font-mono ml-auto">
+                  {formatString(carDetails.fuelType)}{" "}
+                </span>
               </div>
             </div>
           </motion.div>
 
           {/* Technical Section */}
           <motion.div variants={itemVariants} className="w-full text-center">
-            <h4 className="text-lg font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">
+            <h4 className="text-2xl font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">
               Technical Details
             </h4>
             <div className="space-y-2 text-base text-gray-700">
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Engine Capacity:</strong>{" "}
-                {carDetails.engineCapacity || "N/A"} cc
+                <span className="font-mono ml-auto">
+                  {" "}
+                  {carDetails.engineCapacity || "N/A"}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">CO2 Emissions:</strong>{" "}
-                {carDetails.co2Emissions || "N/A"} g/km
+                <span className="font-mono ml-auto">
+                  {carDetails.co2Emissions || "N/A"} g/km
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Type Approval:</strong>{" "}
-                {carDetails.typeApproval || "N/A"}
+                <span className="font-mono ml-auto">
+                  {carDetails.typeApproval || "N/A"}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Wheelplan:</strong>{" "}
-                {formatString(carDetails.wheelplan)}
+                <span className="font-mono ml-auto">
+                  {formatString(carDetails.wheelplan)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Approval Type:</strong>{" "}
-                {formatString(carDetails.typeApproval)}
+                <span className="font-mono ml-auto">
+                  {formatString(carDetails.typeApproval)}
+                </span>
               </div>
             </div>
           </motion.div>
 
           {/* Tax & MOT Section */}
-          <motion.div variants={itemVariants} className="w-full text-center">
-            <h4 className="text-lg font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">
+          <motion.div variants={itemVariants} className="w-full text-center ">
+            <h4 className="text-2xl font-semibold text-gray-800 mb-2 border-b border-gray-200 pb-2">
               Tax & MOT
             </h4>
             <div className="space-y-2 text-base text-gray-700 text-center">
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Tax Status:</strong>{" "}
-                {renderStatusBadge(carDetails.taxStatus, true)}
+                <span className="font-mono ml-auto">
+                  {renderStatusBadge(carDetails.taxStatus, true)}{" "}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Tax Due Date:</strong>{" "}
-                {formatDate(carDetails.taxDueDate)}
+                <span className="font-mono ml-auto">
+                  {formatDate(carDetails.taxDueDate)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">MOT Status:</strong>{" "}
-                {renderStatusBadge(carDetails.motStatus, false)}
+                <span className="font-mono ml-auto">
+                  {renderStatusBadge(carDetails.motStatus, false)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">MOT Expiry Date:</strong>{" "}
-                {formatDate(carDetails.motExpiryDate)}
+                <span className="font-mono ml-auto">
+                  {formatDate(carDetails.motExpiryDate)}
+                </span>
               </div>
             </div>
           </motion.div>
 
           {/* Registration Section */}
-          <motion.div variants={itemVariants} className="w-full text-center ">
-            <h4 className="text-lg font-semibold text-gray-800 mb-3 border-b  border-gray-200 pb-2">
+          <motion.div
+            variants={itemVariants}
+            className="w-full text-center mb-6"
+          >
+            <h4 className="text-2xl font-semibold text-gray-800 mb-3 border-b  border-gray-200 pb-2">
               Registration Details
             </h4>
             <div className="space-y-2 text-base text-gray-700">
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">
                   Month of First Registration:
                 </strong>{" "}
-                {formatDate(carDetails.monthOfFirstRegistration)}
+                <span className="font-mono ml-auto">
+                  {formatDate(carDetails.monthOfFirstRegistration)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">
                   Date of Last V5C Issued:
                 </strong>{" "}
-                {formatDate(carDetails.dateOfLastV5CIssued)}
+                <span className="font-mono ml-auto">
+                  {" "}
+                  {formatDate(carDetails.dateOfLastV5CIssued)}
+                </span>
               </div>
-              <div>
+              <div className="flex justify-start">
                 <strong className="font-semibold">Marked for Export:</strong>{" "}
-                {carDetails.markedForExport ? "Yes" : "No"}
+                <span className="font-mono ml-auto">
+                  {carDetails.markedForExport ? "Yes" : "No"}
+                </span>
               </div>
             </div>
           </motion.div>
