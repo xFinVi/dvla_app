@@ -33,42 +33,45 @@ function VehicleCard({
         loading="lazy"
         onClick={handleImageClick}
       />
-      <div className="p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-800">
-              {vehicle.registrationNumber}
-            </h3>
+
+      <div className="flex items-center justify-between px-3 py-1">
+        <div className="">
+          <h3 className="text-base font-semibold text-gray-800">
+            {vehicle.registrationNumber}
+          </h3>
+          <div className="flex gap-3 sm:flex-col ">
             <p className="text-sm text-gray-600">
-              Make: {vehicle.make || "N/A"}
+              <strong>Make: </strong> {vehicle.make || "N/A"}
             </p>
             <p className="text-sm text-gray-600">
-              Colour: {vehicle.colour || "N/A"}
+              <strong>Colour:</strong> {vehicle.colour || "N/A"}
             </p>
             <p className="text-sm text-gray-600">
-              Year: {vehicle.yearOfManufacture || "N/A"}
+              <strong>Year: </strong>
+              {vehicle.yearOfManufacture || "N/A"}
             </p>
-          </div>
-          <div className="flex gap-2">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log(
-                  `[${new Date().toISOString()}] Removing vehicle ID:`,
-                  vehicle.id
-                );
-                removeVehicle(vehicle.id);
-              }}
-              className="text-red-500 hover:text-red-600"
-              aria-label="Remove vehicle"
-            >
-              <FaTrashAlt className="w-5 h-5" />
-            </motion.button>
           </div>
         </div>
+        <div className="flex gap-2">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log(
+                `[${new Date().toISOString()}] Removing vehicle ID:`,
+                vehicle.id
+              );
+              removeVehicle(vehicle.id);
+            }}
+            className="text-red-500 hover:text-red-600"
+            aria-label="Remove vehicle"
+          >
+            <FaTrashAlt className="w-4 h-4" />
+          </motion.button>
+        </div>
       </div>
+
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -83,7 +86,7 @@ function VehicleCard({
         className={`px-3 w-full py-1 text-gray-800   ${
           isSelected
             ? "bg-red-400 text-gray-500  font-bold"
-            : "bg-yellow-400 font-medium hover:bg-yellow-500"
+            : "bg-yellow-400 font-medium hover:bg-yellow-200"
         }`}
         aria-label="Select vehicle"
       >

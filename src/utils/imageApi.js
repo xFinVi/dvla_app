@@ -6,9 +6,11 @@ const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 // In-memory cache for image URLs
 const imageCache = new Map();
 
-export const fetchCarImage = async (make) => {
+export const fetchCarImage = async (make, color) => {
   // Normalize make: trim, uppercase, check validity
   const normalizedMake = make?.trim()?.toUpperCase();
+  const normalizedColor = color?.trim()?.toLowerCase();
+
   if (!normalizedMake || normalizedMake === "UNKNOWN") {
     return "/images/default-car.jpg"; // Silently return default
   }
@@ -17,13 +19,22 @@ export const fetchCarImage = async (make) => {
     return "/images/default-car.jpg";
   }
 
+  // Create cache key based on make and color (if provided)
+  const cacheKey = normalizedColor
+    ? `${normalizedMake}_${normalizedColor.toUpperCase()}`
+    : normalizedMake;
+
   // Check cache first
-  if (imageCache.has(normalizedMake)) {
-    return imageCache.get(normalizedMake);
+  if (imageCache.has(cacheKey)) {
+    return imageCache.get(cacheKey);
   }
 
-  // Query attempts: try "BMW car", then "BMW"
-  const queries = [`${normalizedMake} car`, normalizedMake];
+  // Query attempts: try make+color+car, make+car, make
+  const queries = [];
+  if (normalizedColor && normalizedColor !== "unknown") {
+    queries.push(`${normalizedMake} ${normalizedColor} car`);
+  }
+  queries.push(`${normalizedMake} car`, normalizedMake);
 
   for (const query of queries) {
     try {
@@ -40,21 +51,21 @@ export const fetchCarImage = async (make) => {
 
       const imageUrl = response.data.results[0]?.urls?.regular;
       if (imageUrl) {
-        imageCache.set(normalizedMake, imageUrl);
+        imageCache.set(cacheKey, imageUrl);
         return imageUrl;
       }
     } catch (error) {
       const status = error.response?.status;
       if (status === 429) {
         console.warn("Unsplash rate limit reached. Using default image.");
-        imageCache.set(normalizedMake, "/images/default-car.jpg");
+        imageCache.set(cacheKey, "/images/default-car.jpg");
         return "/images/default-car.jpg";
       }
       if (status === 401) {
         console.error(
           "Invalid Unsplash API key. Please check VITE_UNSPLASH_ACCESS_KEY."
         );
-        imageCache.set(normalizedMake, "/images/default-car.jpg");
+        imageCache.set(cacheKey, "/images/default-car.jpg");
         return "/images/default-car.jpg";
       }
       // Silently handle other errors (e.g., no results)
@@ -62,6 +73,6 @@ export const fetchCarImage = async (make) => {
   }
 
   // Fallback if no queries succeed
-  imageCache.set(normalizedMake, "/images/default-car.jpg");
+  imageCache.set(cacheKey, "/images/default-car.jpg");
   return "/images/default-car.jpg";
 };
