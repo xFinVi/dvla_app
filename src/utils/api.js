@@ -4,7 +4,7 @@ import axiosRetry from "axios-retry";
 const vehicleCache = new Map();
 
 const client = axios.create({
-  baseURL: "http://localhost:3001/api/",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 // Retry for 429 (rate limit) and 503 (service unavailable)
