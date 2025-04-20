@@ -70,7 +70,7 @@ function AddForm({ onAddVehicle }) {
           type="text"
           value={newRegPlate}
           onChange={(e) => setNewRegPlate(e.target.value.toUpperCase())}
-          placeholder="Enter registration number (e.g., AK13BBX)"
+          placeholder="Registration no.(AK13BBX)"
           className={`w-full p-3 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 ${
             error
               ? "border-red-500 focus:ring-red-500"
