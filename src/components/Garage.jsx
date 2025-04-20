@@ -264,7 +264,7 @@ function Garage() {
                     className="w-24 px-2 py-2 mb-4 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     aria-label="Sort vehicles by year"
                   >
-                    <option value="">Sort</option>
+                    <option value="none">No Sort</option>
                     <option value="asc">Oldest First</option>
                     <option value="desc">Newest First</option>
                   </select>

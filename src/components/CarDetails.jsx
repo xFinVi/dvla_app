@@ -171,16 +171,28 @@ function CarDetails() {
           {/* Navigation Button */}
           <motion.div
             variants={itemVariants}
-            className="mt-6 w-[196px]  hover:bg-yellow-400 transition flex items-center bg-white"
+            className="flex items-center mt-6 transition bg-white hover:bg-yellow-400"
           >
-            <FaArrowLeft className="ml-2" />
-            <button
-              onClick={() => navigate(-1)}
-              className="w-full px-4 py-2 font-medium text-gray-800 "
+            <div className="flex items-center ml-4 transition bg-white border border-gray-200  border-1 hover:bg-yellow-400">
+              <FaArrowLeft className="ml-2" />
+              <button
+                onClick={() => navigate(-1)}
+                className=" px-4 w-[196px] py-2 font-medium text-gray-800 "
+              >
+                Back to homepage
+              </button>{" "}
+            </div>
+
+            <motion.h1
+              className="text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border w-1/2"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              Back to homepage
-            </button>
+              {carDetails.registrationNumber || "N/A"}
+            </motion.h1>
           </motion.div>
+
           {/* Details Section */}
           <motion.div
             variants={itemVariants}
@@ -190,16 +202,7 @@ function CarDetails() {
               variants={itemVariants}
               className="w-full mx-auto bg-center bg-cover shadow-lg min-h-80 lg:h-80 lg:bg-no-repeat"
               style={{ backgroundImage: `url(${imageUrl})` }}
-            >
-              <motion.h1
-                className="text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border w-1/2"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {carDetails.registrationNumber || "N/A"}
-              </motion.h1>
-            </motion.div>
+            ></motion.div>
             <div className=" sm:w-[80%] lg:w-3/4 mt-2  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-8 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
               {/* Background Image Section */}
 
