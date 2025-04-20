@@ -10,9 +10,11 @@ function CarDetails() {
   const { registrationNumber } = useParams();
   const navigate = useNavigate();
   const [carDetails, setCarDetails] = useState(null);
-  const [imageUrl, setImageUrl] = useState("/images/default-car.jpg");
+  const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  console.log(carDetails);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -26,6 +28,7 @@ function CarDetails() {
         const details = await fetchVehicleDetails(
           registrationNumber.trim().toUpperCase()
         );
+        console.log("details comp", details);
         if (details && details.error) {
           setError(details.error);
           setLoading(false);
@@ -177,14 +180,14 @@ function CarDetails() {
               <FaArrowLeft className="ml-2" />
               <button
                 onClick={() => navigate("/")}
-                className=" px-4 w-[196px] py-2 font-medium text-gray-800 "
+                className=" px-2 xs:px-4 w-[140px] xs:w-[196px] text-sm py-2 font-medium text-gray-800 "
               >
                 Back to homepage
               </button>
             </div>
 
             <motion.h1
-              className="text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border w-1/2"
+              className="text-base w-[100px] xs:w-[180px]  xs:text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border w-1/2"
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -200,10 +203,10 @@ function CarDetails() {
           >
             <motion.div
               variants={itemVariants}
-              className="w-full mx-auto bg-center bg-cover shadow-lg xl:bg-contain min-h-80 lg:h-80 lg:bg-no-repeat"
+              className="w-full mx-auto bg-center bg-cover shadow-lg xl:bg-contain min-h-56 xs:min-h-80 sm:min-h-80 lg:h-80 lg:bg-no-repeat"
               style={{ backgroundImage: `url(${imageUrl})` }}
             ></motion.div>
-            <div className=" sm:w-[80%] lg:w-3/4   mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-4 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
+            <div className=" sm:w-[80%] mt-4 lg:w-3/4 overflow-auto  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-4 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
               {/* Background Image Section */}
 
               {/* General Section */}
@@ -277,7 +280,7 @@ function CarDetails() {
                   </div>
                   <div className="flex justify-start">
                     <strong className="font-semibold">Wheelplan:</strong>
-                    <span className="ml-auto font-mono">
+                    <span className="ml-auto sm:font-mono">
                       {formatString(carDetails.wheelplan)}
                     </span>
                   </div>
