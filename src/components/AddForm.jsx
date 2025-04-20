@@ -70,7 +70,7 @@ function AddForm({ onAddVehicle }) {
           type="text"
           value={newRegPlate}
           onChange={(e) => setNewRegPlate(e.target.value.toUpperCase())}
-          placeholder="Registration no.(AK13BBX)"
+          placeholder="Enter registration number (e.g., AK13BBX)"
           className={`w-full p-3 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 ${
             error
               ? "border-red-500 focus:ring-red-500"
@@ -101,7 +101,7 @@ function AddForm({ onAddVehicle }) {
         className="flex items-center justify-center h-12 gap-2 px-4 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
         aria-busy={isLoading}
       >
-        <FaPlus /> {isLoading ? "Adding..." : "Add Vehicle"}
+        <FaPlus /> {isLoading ? "Adding..." : "Add"}
       </motion.button>
     </motion.form>
   );
