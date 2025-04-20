@@ -173,14 +173,14 @@ function CarDetails() {
             variants={itemVariants}
             className="flex items-center mt-6 transition bg-white hover:bg-yellow-400"
           >
-            <div className="flex items-center ml-4 transition bg-white border border-gray-200  border-1 hover:bg-yellow-400">
+            <div className="flex items-center ml-4 transition bg-white border border-gray-200 border-1 hover:bg-white hover:text-gray-700 hover:text-transform/95">
               <FaArrowLeft className="ml-2" />
               <button
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/")}
                 className=" px-4 w-[196px] py-2 font-medium text-gray-800 "
               >
                 Back to homepage
-              </button>{" "}
+              </button>
             </div>
 
             <motion.h1
