@@ -4,7 +4,7 @@ import axiosRetry from "axios-retry";
 const vehicleCache = new Map();
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "http://localhost:3001/api/" || VITE_API_URL,
 });
 
 // Retry for 429 (rate limit) and 503 (service unavailable)
@@ -15,11 +15,6 @@ axiosRetry(client, {
     error.response?.status === 429 || error.response?.status === 503,
 });
 
-/**
- * Fetches vehicle details from the DVLA API.
- * @param {string} registrationNumber - The vehicle registration number (e.g., "ABC123").
- * @returns {Promise<object>} Vehicle data or an error object.
- */
 const fetchVehicleDetails = async (registrationNumber) => {
   try {
     const normalizedReg = registrationNumber.replace(/\s+/g, "").toUpperCase();
