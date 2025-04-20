@@ -2,13 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchVehicleDetails } from "../utils/api";
 import { fetchCarImage } from "../utils/imageApi";
-import AddForm from "./AddForm.jsx";
+import AddForm from "./AddForm";
 import VehicleCard from "./VehicleCard.jsx";
 import {
   getInitialVehicles,
   getInitialImageCache,
 } from "../utils/helperFunctions";
-import { defaultRegistrations } from "../utils/constants.js";
+import { defaultBackground, defaultRegistrations } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 
 function Garage() {
@@ -22,7 +22,8 @@ function Garage() {
   // Initialize default vehicles if needed
   useEffect(() => {
     const initializeDefaultVehicles = async () => {
-      if (vehicles.length === 0 && !localStorage.getItem("vehicles")) {
+      // If there are no vehicles loaded, seed defaults
+      if (vehicles.length === 0) {
         const newVehicles = [];
         const newImageCache = { ...imageCache };
 
@@ -31,15 +32,19 @@ function Garage() {
             const result = await fetchVehicleDetails(
               regNumber.trim().toUpperCase()
             );
+
             if (result?.make && result?.registrationNumber) {
+              const id = `${regNumber}-${Date.now()}-${Math.random()}`;
+
               newVehicles.push({
-                id: `${regNumber}-${Date.now()}`,
-                registrationNumber: regNumber.toUpperCase(),
+                id,
+                registrationNumber: result.registrationNumber.toUpperCase(),
                 make: result.make,
                 colour: result.colour || "N/A",
                 yearOfManufacture: result.yearOfManufacture || "N/A",
               });
 
+              // Add image if not already cached
               if (result.make && !newImageCache[result.make]) {
                 const imageUrl = await fetchCarImage(
                   result.make,
@@ -53,9 +58,14 @@ function Garage() {
           }
         }
 
+        // Only update state if we actually got valid vehicles
         if (newVehicles.length > 0) {
           setVehicles(newVehicles);
           setImageCache(newImageCache);
+
+          // Save to localStorage
+          localStorage.setItem("vehicles", JSON.stringify(newVehicles));
+          localStorage.setItem("imageCache", JSON.stringify(newImageCache));
         }
       }
     };
@@ -169,8 +179,9 @@ function Garage() {
     });
   }, [vehicles, sortOrder]);
 
-  const defaultBackground =
-    "url('https://img.freepik.com/free-photo/horror-scene-with-eerie-hall_23-2150975360.jpg?t=st=1745106078~exp=1745109678~hmac=314cea6f44c5adb24742f389fdf0f4bcffbed419172a23ed84aac488789a3094&w=826')";
+  const randomIndex = Math.floor(Math.random() * defaultBackground.length);
+
+  const backgroundImage = `url(${defaultBackground[randomIndex]} `;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
@@ -183,14 +194,14 @@ function Garage() {
         } bg-cover bg-center bg-no-repeat`}
         style={{
           backgroundImage: !selectedCar
-            ? defaultBackground
+            ? backgroundImage
             : `url(${getCarImage(selectedCar.make)})`,
         }}
       >
         {selectedCar && (
           <Link
             to={`/car/${selectedCar.registrationNumber}`}
-            className="absolute z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150px] text-center flex items-center justify-center h-10 px-2 text-white bg-yellow-400 rounded-lg cursor-pointer"
+            className="absolute z-50 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[150px] text-center flex items-center justify-center h-10 px-2 text-white bg-yellow-400 rounded-lg cursor-pointer"
             aria-label="View selected car details"
           >
             View car
