@@ -178,7 +178,9 @@ function Garage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative w-full h-[60vh] lg:h-[40vh] bg-cover bg-center bg-no-repeat"
+        className={`relative w-full h-[60vh] ${
+          vehicles.length > 0 ? "lg:h-[40vh]" : "lg:h-[70vh]"
+        } bg-cover bg-center bg-no-repeat`}
         style={{
           backgroundImage: !selectedCar
             ? defaultBackground
