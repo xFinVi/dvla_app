@@ -283,8 +283,8 @@ function Garage() {
               )}
             </div>
 
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[90%] w-full mx-auto mt-8"
+          <motion.div
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[90%] xl:max-w-[1350px] w-full mx-auto mt-8"
               initial="hidden"
               animate="visible"
               variants={{
