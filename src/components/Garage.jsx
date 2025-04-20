@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchVehicleDetails } from "../utils/api";
 import { fetchCarImage } from "../utils/imageApi";
-import AddForm from "./AddForm";
-import VehicleCard from "./VehicleCard.jsx";
+import AddForm from "./addForm.jsx";
+import VehicleCard from "./vehicleCard.jsx";
 import {
   getInitialVehicles,
   getInitialImageCache,
