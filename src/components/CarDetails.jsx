@@ -28,6 +28,7 @@ function CarDetails() {
 
       try {
         const vehicles = getLocalStorage("vehicles", []);
+        //check if vehicle exists already in our "Garage"
         const vehicle = vehicles.find(
           (v) =>
             v.registrationNumber.toUpperCase() ===
