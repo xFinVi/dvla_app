@@ -74,3 +74,13 @@ export const itemVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
 };
+
+export const getLocalStorage = (key, defaultValue = null) => {
+  try {
+    const storedData = localStorage.getItem(key);
+    return storedData ? JSON.parse(storedData) : defaultValue;
+  } catch (error) {
+    console.error(`Error retrieving ${key} from localStorage:`, error);
+    return defaultValue;
+  }
+};

@@ -4,6 +4,7 @@ export default {
   theme: {
     extend: {
       screens: {
+        xs: "500px", // custom breakpoint name and value
         xl: "1350px", // custom breakpoint name and value
       },
     },

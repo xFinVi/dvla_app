@@ -4,7 +4,7 @@ import axiosRetry from "axios-retry";
 const vehicleCache = new Map();
 
 const client = axios.create({
-  baseURL: "http://localhost:3001/api/" || VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL, // Fallback for local testing
 });
 
 // Retry for 429 (rate limit) and 503 (service unavailable)
@@ -19,7 +19,7 @@ const fetchVehicleDetails = async (registrationNumber) => {
   try {
     const normalizedReg = registrationNumber.replace(/\s+/g, "").toUpperCase();
     if (!normalizedReg) {
-      throw new Error("Registration number is required");
+      return { error: "Registration number is required", status: 400 };
     }
 
     if (vehicleCache.has(normalizedReg)) {
@@ -37,12 +37,19 @@ const fetchVehicleDetails = async (registrationNumber) => {
     const status = error.response?.status;
     const message = error.response?.data?.error || error.message;
 
+    console.error(
+      `[${new Date().toISOString()}] DVLA API error for ${registrationNumber}:`,
+      message
+    );
     if (status === 400 || status === 404 || status === 429) {
-      return { error: message, status }; // Return error object for client handling
+      return { error: message, status };
     }
 
-    console.error(`DVLA API error for ${registrationNumber}:`, message);
-    throw error; // Rethrow other errors for global handling
+    // Handle network errors (e.g., backend not deployed)
+    return {
+      error: "Unable to connect to the backend. Please try again later.",
+      status: "network",
+    };
   }
 };
 

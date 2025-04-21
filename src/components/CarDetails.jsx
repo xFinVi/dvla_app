@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaArrowLeft, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { format, parse } from "date-fns";
-import { fetchVehicleDetails } from "../utils/api";
+
 import { fetchCarImage } from "../utils/imageApi";
+import {
+  formatString,
+  getLocalStorage,
+  formatDate,
+} from "../utils/helperFunctions";
 
 function CarDetails() {
   const { registrationNumber } = useParams();
   const navigate = useNavigate();
   const [carDetails, setCarDetails] = useState(null);
-  const [imageUrl, setImageUrl] = useState("/images/default-car.jpg");
+  const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -23,17 +27,24 @@ function CarDetails() {
       }
 
       try {
-        const details = await fetchVehicleDetails(
-          registrationNumber.trim().toUpperCase()
+        const vehicles = getLocalStorage("vehicles", []);
+        const vehicle = vehicles.find(
+          (v) =>
+            v.registrationNumber.toUpperCase() ===
+            registrationNumber.toUpperCase()
         );
-        if (details && details.error) {
-          setError(details.error);
+
+        if (!vehicle) {
+          setError("Vehicle not found in storage.");
           setLoading(false);
           return;
         }
-        setCarDetails(details);
-        if (details.make && details.make !== "Unknown") {
-          const url = await fetchCarImage(details.make, details.colour);
+
+        setCarDetails(vehicle);
+
+        // Fetch image if make is available
+        if (vehicle.make && vehicle.make !== "Unknown") {
+          const url = await fetchCarImage(vehicle.make, vehicle.colour);
           setImageUrl(url);
         }
         setError(null);
@@ -47,21 +58,6 @@ function CarDetails() {
 
     fetchDetails();
   }, [registrationNumber]);
-
-  // Format strings ( DIESEL to Diesel)
-  const formatString = (str) =>
-    str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "N/A";
-
-  // Format dates ( 2025-10-01 to 01 Oct 2025)
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "N/A";
-    try {
-      const date = parse(dateStr, "yyyy-MM-dd", new Date());
-      return format(date, "dd MMM yyyy");
-    } catch {
-      return dateStr;
-    }
-  };
 
   // Render status badge
   const renderStatusBadge = (status, isTax) => {
@@ -166,7 +162,7 @@ function CarDetails() {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="absolute  top-0 left-0 right-0 max-h-[85vh] w-[90%] sm:max-w-[75%] mx-auto mt-4 "
+          className="absolute bottom-0  top-0 left-0 right-0 h-full w-[90%] sm:max-w-[75%] mx-auto mt-4 "
         >
           {/* Navigation Button */}
           <motion.div
@@ -177,14 +173,14 @@ function CarDetails() {
               <FaArrowLeft className="ml-2" />
               <button
                 onClick={() => navigate("/")}
-                className=" px-4 w-[196px] py-2 font-medium text-gray-800 "
+                className=" px-2 xs:px-4 w-[140px] xs:w-[196px] text-sm py-2 font-medium text-gray-800 "
               >
                 Back to homepage
               </button>
             </div>
 
             <motion.h1
-              className="text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border w-1/2"
+              className="text-base w-[100px] xs:w-[180px]  xs:text-2xl font-bold my-4 max-w-[185px] mx-auto text-center border-3 bg-yellow-400 p-1 border "
               variants={containerVariants}
               initial="hidden"
               animate="visible"
@@ -196,14 +192,14 @@ function CarDetails() {
           {/* Details Section */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col h-[85vh] bg-white  shadow-md rounded-b-xl"
+            className="flex flex-col h-full bg-white shadow-md rounded-b-xl"
           >
             <motion.div
               variants={itemVariants}
-              className="w-full mx-auto bg-center bg-cover shadow-lg xl:bg-contain min-h-80 lg:h-80 lg:bg-no-repeat"
+              className="w-full mx-auto bg-center bg-cover shadow-lg xl:bg-contain min-h-56 xs:min-h-80 sm:min-h-80 lg:h-80 lg:bg-no-repeat"
               style={{ backgroundImage: `url(${imageUrl})` }}
             ></motion.div>
-            <div className=" sm:w-[80%] lg:w-3/4   mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-4 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
+            <div className=" sm:w-[80%] mt-4 lg:w-3/4 h-[100%]  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-4 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
               {/* Background Image Section */}
 
               {/* General Section */}
@@ -277,7 +273,7 @@ function CarDetails() {
                   </div>
                   <div className="flex justify-start">
                     <strong className="font-semibold">Wheelplan:</strong>
-                    <span className="ml-auto font-mono">
+                    <span className="ml-auto sm:font-mono">
                       {formatString(carDetails.wheelplan)}
                     </span>
                   </div>
