@@ -101,7 +101,7 @@ function AddForm({ onAddVehicle }) {
         className="flex items-center justify-center h-12 gap-2 px-4 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 disabled:bg-blue-300"
         aria-busy={isLoading}
       >
-        <FaPlus /> {isLoading ? "Adding..." : "Add Vehicle"}
+        <FaPlus /> {isLoading ? "Adding..." : "Add"}
       </motion.button>
     </motion.form>
   );
