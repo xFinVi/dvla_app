@@ -1,55 +1,39 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
-
-const vehicleCache = new Map();
+import { getLocalStorage } from "./helperFunctions";
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // Fallback for local testing
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
 });
 
-// Retry for 429 (rate limit) and 503 (service unavailable)
 axiosRetry(client, {
   retries: 3,
   retryDelay: (retryCount) => retryCount * 1000,
-  retryCondition: (error) =>
-    error.response?.status === 429 || error.response?.status === 503,
+  retryCondition: (error) => error.response?.status === 429,
 });
 
 const fetchVehicleDetails = async (registrationNumber) => {
+  const normalizedReg = registrationNumber?.replace(/\s+/g, "").toUpperCase();
+
+  //check local storage before making another api call
+  const vehicles = getLocalStorage("vehicles") || [];
+  const cachedVehicle = vehicles.find(
+    (vehicle) => vehicle.registrationNumber.toUpperCase() === normalizedReg
+  );
+  // if the vehicle is found in storage, return it
+  if (cachedVehicle) return cachedVehicle;
+
+  //else make the api call
   try {
-    const normalizedReg = registrationNumber.replace(/\s+/g, "").toUpperCase();
-    if (!normalizedReg) {
-      return { error: "Registration number is required", status: 400 };
-    }
-
-    if (vehicleCache.has(normalizedReg)) {
-      return vehicleCache.get(normalizedReg);
-    }
-
-    const response = await client.post("vehicles", {
+    const response = await client.post("/api/vehicles", {
       registrationNumber: normalizedReg,
     });
-
-    const data = response.data;
-    vehicleCache.set(normalizedReg, data);
-    return data;
+    return response.data;
   } catch (error) {
     const status = error.response?.status;
-    const message = error.response?.data?.error || error.message;
-
-    console.error(
-      `[${new Date().toISOString()}] DVLA API error for ${registrationNumber}:`,
-      message
-    );
-    if (status === 400 || status === 404 || status === 429) {
-      return { error: message, status };
-    }
-
-    // Handle network errors (e.g., backend not deployed)
-    return {
-      error: "Unable to connect to the backend. Please try again later.",
-      status: "network",
-    };
+    const message =
+      error.response?.data?.error || "Unable to connect to the backend.";
+    return { error: message, status: status || "network" };
   }
 };
 
