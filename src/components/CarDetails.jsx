@@ -178,7 +178,7 @@ function CarDetails() {
                 className="w-full mx-auto bg-center bg-cover shadow-lg min-h-64 lg:h-64 lg:bg-no-repeat"
                 style={{ backgroundImage: `url(${imageUrl})` }}
               ></motion.div>
-              <div className=" sm:w-[80%] lg:w-3/4 mt-2  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-8 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
+              <div className=" sm:w-[80%] lg:w-full mt-2  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-8 lg:p-3 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">
                 {/* Background Image Section */}
 
                 {/* General Section */}
@@ -189,7 +189,7 @@ function CarDetails() {
                   <h4 className="mb-3 text-xl font-semibold text-gray-800 ">
                     General Information
                   </h4>
-                  <div className="flex flex-col gap-2 px-4 text-base text-gray-700 border-t border-gray-200">
+                  <div className="flex flex-col gap-3 px-4 text-base text-gray-700 border-t border-gray-200">
                     <div className="flex justify-start">
                       <strong className="font-semibold">Registration:</strong>
                       <span className="ml-auto font-mono">
@@ -231,7 +231,7 @@ function CarDetails() {
                   <h4 className="mb-3 text-xl font-semibold text-gray-800 ">
                     Technical Details
                   </h4>
-                  <div className="flex flex-col gap-2 px-4 text-base text-gray-700 border-t border-gray-200">
+                  <div className="flex flex-col gap-3 px-4 text-base text-gray-700 border-t border-gray-200">
                     <div className="flex justify-start">
                       <strong className="font-semibold">
                         Engine Capacity:
@@ -275,7 +275,7 @@ function CarDetails() {
                   <h4 className="mb-3 text-xl font-semibold text-gray-800 ">
                     Tax & MOT
                   </h4>
-                  <div className="flex flex-col gap-2 px-4 text-base text-center text-gray-700 border-t border-gray-200 ">
+                  <div className="flex flex-col gap-3 px-4 text-base text-center text-gray-700 border-t border-gray-200 ">
                     <div className="flex justify-start">
                       <strong className="font-semibold">Tax Status:</strong>
                       <span className="ml-auto font-mono">
@@ -313,7 +313,7 @@ function CarDetails() {
                   <h4 className="mb-3 text-xl font-semibold text-gray-800 ">
                     Registration Details
                   </h4>
-                  <div className="flex flex-col gap-2 px-4 text-base text-gray-700 border-t border-gray-200 ">
+                  <div className="flex flex-col gap-3 px-4 text-base text-gray-700 border-t border-gray-200 ">
                     <div className="flex justify-start">
                       <strong className="font-semibold">
                         First Registration Date:

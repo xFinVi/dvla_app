@@ -21,7 +21,7 @@ export const getInitialVehicles = () => {
   }
   return [];
 };
-// Initialize imagese from localStorage
+// Initialize images from localStorage
 export const getInitialImageCache = () => {
   try {
     const storedImageCache = localStorage.getItem("imageCache");
@@ -57,6 +57,7 @@ export const formatDate = (dateStr) => {
   }
 };
 
+//get existing data from local storage
 export const getLocalStorage = (key) => {
   try {
     const item = localStorage.getItem(key);
@@ -66,6 +67,8 @@ export const getLocalStorage = (key) => {
     return null;
   }
 };
+
+//set local storage and save data
 export const setLocalStorage = (key, value = null) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
@@ -74,4 +77,14 @@ export const setLocalStorage = (key, value = null) => {
     console.error(`Error setting ${key} in localStorage:`, error);
     return false;
   }
+};
+
+// client side validation
+export const validateRegPlate = (regPlate) => {
+  const trimmed = regPlate.trim().toUpperCase();
+  if (!trimmed) return "Registration number required.";
+  if (!/^[A-Z0-9]{2,7}$/.test(trimmed)) {
+    return "Enter 2-7 letters or numbers.";
+  }
+  return null;
 };

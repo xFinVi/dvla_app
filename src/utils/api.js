@@ -13,20 +13,18 @@ axiosRetry(client, {
 });
 
 const fetchVehicleDetails = async (registrationNumber) => {
-  const normalizedReg = registrationNumber?.replace(/\s+/g, "").toUpperCase();
-
   //check local storage before making another api call
   const vehicles = getLocalStorage("vehicles") || [];
   const cachedVehicle = vehicles.find(
-    (vehicle) => vehicle.registrationNumber.toUpperCase() === normalizedReg
+    (vehicle) => vehicle.registrationNumber.toUpperCase() === registrationNumber
   );
   // if the vehicle is found in storage, return it
   if (cachedVehicle) return cachedVehicle;
 
   //else make the api call
   try {
-    const response = await client.post("/api/vehicles", {
-      registrationNumber: normalizedReg,
+    const response = await client.post("/vehicles", {
+      registrationNumber: registrationNumber,
     });
     return response.data;
   } catch (error) {

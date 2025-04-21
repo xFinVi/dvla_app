@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchVehicleDetails } from "../utils/api";
 import { fetchCarImage } from "../utils/imageApi";
-import AddForm from "./AddForm";
+import AddForm from "./AddForm.jsx";
 import VehicleCard from "./VehicleCard.jsx";
 import {
   getInitialVehicles,
@@ -21,7 +21,7 @@ function Garage() {
   const [vehicles, setVehicles] = useState(getInitialVehicles());
   const [imageCache, setImageCache] = useState(getInitialImageCache());
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(null);
   const [deleteMessage, setDeleteMessage] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
@@ -38,13 +38,9 @@ function Garage() {
             const result = await fetchVehicleDetails(
               regNumber.trim().toUpperCase()
             );
-
             if (result?.make && result?.registrationNumber) {
               const id = `${regNumber}-${Date.now()}-${Math.random()}`;
-              newVehicles.push({
-                id,
-                ...result,
-              });
+              newVehicles.push({ id, ...result });
 
               if (result.make && !newImageCache[result.make]) {
                 const imageUrl = await fetchCarImage(
@@ -77,14 +73,8 @@ function Garage() {
     setLocalStorage("imageCache", imageCache);
   }, [vehicles, imageCache]);
 
-  const handleAddVehicle = async (newVehicle) => {
-    const regNumber = newVehicle.registrationNumber.trim().toUpperCase();
-    const make = newVehicle.make?.trim();
-
-    if (!make || make === "Unknown") {
-      setError("Invalid vehicle make.");
-      return;
-    }
+  const handleAddVehicle = async (vehicleData) => {
+    const regNumber = vehicleData.registrationNumber.trim().toUpperCase();
 
     if (
       vehicles.some(
@@ -92,30 +82,37 @@ function Garage() {
       )
     ) {
       setError("Vehicle with this registration number already exists.");
-      return;
+      throw new Error("Vehicle with this registration number already exists.");
     }
 
     try {
-      const result = await fetchVehicleDetails(regNumber);
-      if (result?.error || !result?.make || !result?.registrationNumber) {
-        setError("Invalid vehicle data.");
-        return;
-      }
       const updatedVehicle = {
         id: `${regNumber}-${Date.now()}-${Math.random()}`,
-        ...result,
+        ...vehicleData,
       };
-      setVehicles((prev) => [...prev, updatedVehicle]);
+      const updatedVehicles = [...vehicles, updatedVehicle];
+      setVehicles(updatedVehicles);
+      setLocalStorage("vehicles", updatedVehicles);
 
-      if (result.make && !imageCache[result.make]) {
-        const imageUrl = await fetchCarImage(result.make, result.colour);
-        setImageCache((prev) => ({ ...prev, [result.make]: imageUrl }));
+      if (vehicleData.make && !imageCache[vehicleData.make]) {
+        const imageUrl = await fetchCarImage(
+          vehicleData.make,
+          vehicleData.colour
+        );
+        const updatedImageCache = {
+          ...imageCache,
+          [vehicleData.make]: imageUrl,
+        };
+        setImageCache(updatedImageCache);
+        setLocalStorage("imageCache", updatedImageCache);
       }
 
       setError(null);
+      setSuccessMessage("Vehicle added successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
     } catch (error) {
-      setError("Failed to add vehicle.");
-      console.error("Error adding vehicle:", error.message);
+      setError(error.message || "Failed to add vehicle.");
+      throw error;
     }
   };
 
@@ -125,6 +122,7 @@ function Garage() {
 
     const updatedVehicles = vehicles.filter((vehicle) => vehicle.id !== id);
     setVehicles(updatedVehicles);
+    setLocalStorage("vehicles", updatedVehicles);
 
     const hasSameMake = updatedVehicles.some(
       (vehicle) => vehicle.make === vehicleToRemove.make
@@ -134,6 +132,7 @@ function Garage() {
       setImageCache((prev) => {
         const newCache = { ...prev };
         delete newCache[vehicleToRemove.make];
+        setLocalStorage("imageCache", newCache);
         return newCache;
       });
     }
@@ -209,8 +208,19 @@ function Garage() {
       >
         <motion.div variants={itemVariants} className="max-w-[90%] mx-auto">
           <AddForm onAddVehicle={handleAddVehicle} />
-
           <AnimatePresence>
+            {successMessage && (
+              <motion.p
+                key="success"
+                variants={itemVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className="px-4 py-2 mt-2 font-semibold text-center text-green-500 bg-green-100 rounded-lg"
+              >
+                {successMessage}
+              </motion.p>
+            )}
             {error && (
               <motion.p
                 key="error"
