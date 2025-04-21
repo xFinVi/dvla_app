@@ -45,8 +45,10 @@ function CarDetails() {
 
         // Fetch image if make is available
         if (vehicle.make && vehicle.make !== "Unknown") {
-          const url = await fetchCarImage(vehicle.make, vehicle.colour);
-          setImageUrl(url);
+          const imageCache = getLocalStorage("imageCache", []);
+          const cachedImage = imageCache[vehicle.make];
+
+          setImageUrl(cachedImage);
         }
         setError(null);
       } catch (err) {

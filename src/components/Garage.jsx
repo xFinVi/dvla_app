@@ -19,6 +19,8 @@ function Garage() {
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
 
+  console.log(vehicles);
+
   // Initialize default vehicles if needed
   useEffect(() => {
     const initializeDefaultVehicles = async () => {
@@ -31,6 +33,8 @@ function Garage() {
             const result = await fetchVehicleDetails(
               regNumber.trim().toUpperCase()
             );
+            console.log(result);
+
             if (result?.make && result?.registrationNumber) {
               const id = `${regNumber}-${Date.now()}-${Math.random()}`;
               // Store the full API response with an added id
@@ -39,6 +43,7 @@ function Garage() {
                 ...result, // Store all fields from the API
               });
 
+              // Add image if not already cached
               if (result.make && !newImageCache[result.make]) {
                 const imageUrl = await fetchCarImage(
                   result.make,
@@ -52,6 +57,7 @@ function Garage() {
           }
         }
 
+        // Only update state if we actually got valid vehicles
         if (newVehicles.length > 0) {
           setVehicles(newVehicles);
           setImageCache(newImageCache);
@@ -251,7 +257,7 @@ function Garage() {
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                className="text-center flex justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
+                className="text-center flex text-base justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
               >
                 You have {vehicles.length} vehicles.
               </motion.h2>
