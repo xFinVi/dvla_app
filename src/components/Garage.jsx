@@ -7,6 +7,7 @@ import VehicleCard from "./VehicleCard.jsx";
 import {
   getInitialVehicles,
   getInitialImageCache,
+  setLocalStorage,
 } from "../utils/helperFunctions";
 import { defaultBackground, defaultRegistrations } from "../utils/constants.js";
 import { Link } from "react-router-dom";
@@ -59,10 +60,10 @@ function Garage() {
 
         // Only update state if we actually got valid vehicles
         if (newVehicles.length > 0) {
-          setVehicles(newVehicles);
+          setLocalStorage(newVehicles),
+            setLocalStorage(newImageCache),
+            setVehicles(newVehicles);
           setImageCache(newImageCache);
-          localStorage.setItem("vehicles", JSON.stringify(newVehicles));
-          localStorage.setItem("imageCache", JSON.stringify(newImageCache));
         }
       }
     };
@@ -257,7 +258,7 @@ function Garage() {
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                className="text-center flex text-base justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
+                className="text-center flex  justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
               >
                 You have {vehicles.length} vehicles.
               </motion.h2>

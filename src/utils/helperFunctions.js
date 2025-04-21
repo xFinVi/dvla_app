@@ -75,12 +75,21 @@ export const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export const getLocalStorage = (key, defaultValue = null) => {
+export const getLocalStorage = (key, value = null) => {
   try {
-    const storedData = localStorage.getItem(key);
-    return storedData ? JSON.parse(storedData) : defaultValue;
+    localStorage.getItem(key, JSON.stringify(value));
+    return true;
   } catch (error) {
-    console.error(`Error retrieving ${key} from localStorage:`, error);
-    return defaultValue;
+    console.error(`Error getting ${key} in localStorage:`, error);
+    return false;
+  }
+};
+export const setLocalStorage = (key, value = null) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    console.error(`Error setting ${key} in localStorage:`, error);
+    return false;
   }
 };
