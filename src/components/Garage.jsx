@@ -19,10 +19,11 @@ function Garage() {
   const [selectedCar, setSelectedCar] = useState(null);
   const [sortOrder, setSortOrder] = useState(null);
 
+  console.log(vehicles);
+
   // Initialize default vehicles if needed
   useEffect(() => {
     const initializeDefaultVehicles = async () => {
-      // If there are no vehicles loaded, seed defaults
       if (vehicles.length === 0) {
         const newVehicles = [];
         const newImageCache = { ...imageCache };
@@ -32,16 +33,14 @@ function Garage() {
             const result = await fetchVehicleDetails(
               regNumber.trim().toUpperCase()
             );
+            console.log(result);
 
             if (result?.make && result?.registrationNumber) {
               const id = `${regNumber}-${Date.now()}-${Math.random()}`;
-
+              // Store the full API response with an added id
               newVehicles.push({
                 id,
-                registrationNumber: result.registrationNumber.toUpperCase(),
-                make: result.make,
-                colour: result.colour || "N/A",
-                yearOfManufacture: result.yearOfManufacture || "N/A",
+                ...result, // Store all fields from the API
               });
 
               // Add image if not already cached
@@ -62,8 +61,6 @@ function Garage() {
         if (newVehicles.length > 0) {
           setVehicles(newVehicles);
           setImageCache(newImageCache);
-
-          // Save to localStorage
           localStorage.setItem("vehicles", JSON.stringify(newVehicles));
           localStorage.setItem("imageCache", JSON.stringify(newImageCache));
         }
@@ -107,8 +104,10 @@ function Garage() {
         setError("Invalid vehicle data.");
         return;
       }
-
-      const updatedVehicle = { ...newVehicle, ...result };
+      const updatedVehicle = {
+        id: `${regNumber}-${Date.now()}-${Math.random()}`,
+        ...result, // Store full API response
+      };
       setVehicles((prev) => [...prev, updatedVehicle]);
 
       if (result.make && !imageCache[result.make]) {
@@ -253,12 +252,12 @@ function Garage() {
           </motion.p>
         ) : (
           <>
-            <div className="flex items-center justify-center w-2/4 gap-6 mx-auto">
+            <div className="flex items-center justify-center w-full gap-6 mx-auto xs:w-3/4">
               <motion.h2
                 initial={{ opacity: 0, y: -50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 100, damping: 15 }}
-                className="text-center flex justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
+                className="text-center flex  justify-center items-center font-bold text-gray-700 bg-yellow-500 max-w-[350px] px-4 text-lg rounded-lg py-2"
               >
                 You have {vehicles.length} vehicles.
               </motion.h2>
@@ -284,7 +283,7 @@ function Garage() {
             </div>
 
             <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[90%] w-full mx-auto mt-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-[90%] xl:max-w-[1350px] w-full mx-auto mt-8"
               initial="hidden"
               animate="visible"
               variants={{
