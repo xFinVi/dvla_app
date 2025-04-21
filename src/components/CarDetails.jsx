@@ -141,7 +141,7 @@ function CarDetails() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className={` relative max-h-[85vh] w-[90%]  sm:max-w-[75%] mx-auto mt-4`}
+            className={` relative max-h-[80vh] w-[90%] lg:w-3/5  sm:max-w-[75%] mx-auto mt-4`}
           >
             {/* Navigation Button */}
             {/* Navigation Button */}
@@ -175,7 +175,7 @@ function CarDetails() {
             >
               <motion.div
                 variants={itemVariants}
-                className="w-full mx-auto bg-center bg-cover shadow-lg min-h-80 lg:h-80 lg:bg-no-repeat"
+                className="w-full mx-auto bg-center bg-cover shadow-lg min-h-64 lg:h-64 lg:bg-no-repeat"
                 style={{ backgroundImage: `url(${imageUrl})` }}
               ></motion.div>
               <div className=" sm:w-[80%] lg:w-3/4 mt-2  mx-auto grid items-start grid-cols-1 gap-10 p-2 sm:p-8 md:gap-6 sm:grid-cols-1 lg:grid-cols-2 place-items-center">

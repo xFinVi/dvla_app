@@ -28,3 +28,25 @@ export const defaultBackground = [
   "https://img.freepik.com/premium-photo/body-shop-with-cars-work_23-2147897925.jpg?w=996",
   "https://img.freepik.com/premium-photo/empty-dark-industrial-garage-with-steel-roller-shutter-door-metal-floor-walls-as-background-product-presentation-mockup_981948-31272.jpg?w=1380",
 ];
+
+const randomIndex = Math.floor(Math.random() * defaultBackground.length);
+
+export const backgroundImage = `url(${defaultBackground[randomIndex]} `;
+
+// Animation variants
+export const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+export const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
